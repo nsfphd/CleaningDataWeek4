@@ -28,7 +28,7 @@ lookup table, to translate the numeric code to a descriptive text file
 
 Step 5 uses dplyr methods to pipe the variables, grouped by the activity, and then 
 generate the means for every variable across each activity.  The summarize_all method 
-made this extremely simple.  The resulting dataset is written to a csv file.
+made this extremely simple.  The resulting dataset is written to a txt file.
 
 Noelle Foster
 Submitted 8/5/2017
