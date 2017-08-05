@@ -18,18 +18,20 @@ X_test<-cbind(X_test, Y_test)
 X_train<-cbind(X_train, Y_train)
 merged<-rbind(X_test, X_train)
 
-#label columns using feature names
+#label columns using feature names (Step 4)
 colnames(merged)<-c(feat_names, "activitycode")
 
 #screen out all but mean, std, and activity code columns (Step 2)
-#Regex is patterned to exclude the "*-Freq" values
-screened<-merged[,grep(".mean\\(\\).|.std\\(\\).|.code", colnames(merged))]
+#Regex is patterned to exclude the dimensions where "mean" occurs
+#without actually referring to a mean value
+screened<-merged[,grep(".mean\\(\\).|$|.std\\(\\).|$|.code", colnames(merged))]
 
-#import descriptive labels from Y labels (Step 3 & 4)
+#import descriptive labels from Y labels (Step 3)
 screened$activitydesc<-Y_labels$activitydesc[match(screened$activitycode, Y_labels$activitycode)]
 
 #create second dataset with averages for selected values (Step 5)
 library(dplyr)
 grouped<- screened %>% group_by(activitydesc) %>%
   summarize_all(funs(mean))
+write.csv(grouped, "summarizedData.csv")
 
