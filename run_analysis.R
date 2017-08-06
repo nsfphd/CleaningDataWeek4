@@ -13,25 +13,26 @@ Y_train<-read.table("UCI HAR Dataset/train/Y_train.txt")
 Y_labels<-read.table("UCI HAR Dataset/activity_labels.txt")
 colnames(Y_labels)<-c("activitycode", "activitydesc")
 
-#combine data, first X&Y, and then test and train (Step 1)
-X_test<-cbind(X_test, Y_test)
-X_train<-cbind(X_train, Y_train)
+#combine data, first X/Y/subject, and then test and train (Step 1)
+X_test<-cbind(X_test, Y_test, subj_test)
+X_train<-cbind(X_train, Y_train, subj_train)
 merged<-rbind(X_test, X_train)
 
 #label columns using feature names (Step 4)
-colnames(merged)<-c(feat_names, "activitycode")
+colnames(merged)<-c("subject", feat_names, "activitycode")
 
-#screen out all but mean, std, and activity code columns (Step 2)
+#screen out all but mean, std, activity code, and subject columns (Step 2)
 #Regex is patterned to exclude the dimensions where "mean" occurs
 #without actually referring to a mean value
-screened<-merged[,grep(".mean\\(\\).|$|.std\\(\\).|$|.code", colnames(merged))]
+screened<-merged[,grep(".mean\\(\\).|$|.std\\(\\).|$|.code|subject", colnames(merged))]
 
 #import descriptive labels from Y labels (Step 3)
 screened$activitydesc<-Y_labels$activitydesc[match(screened$activitycode, Y_labels$activitycode)]
 
 #create second dataset with averages for selected values (Step 5)
 library(dplyr)
-grouped<- screened %>% group_by(activitydesc) %>%
+grouped<- screened %>% group_by(subject, activitydesc) %>%
   summarize_all(funs(mean))
-write.csv(grouped, "summarizedData.csv")
+write.table(grouped, "summarizedData.txt", row.name = FALSE)
+
 

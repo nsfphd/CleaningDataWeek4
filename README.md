@@ -19,16 +19,17 @@ as a separate vector and then used to create the column names. This was done bef
 to make the removal of all non-mean/non-std variables simple.
 
 Step 2 uses grep with a regex pattern to identify the needed columns and discard the rest.
-The regex pattern identifies the variables that end with "mean()", "std(), or "code".  The 
+The regex pattern identifies the variables that end with "mean()", "std(), or "code", along with the subject id.  The 
 first two id the columns specified in the assignment, while the third is the column containing
-the data from the Y_ axis for the activity code.
+the data from the Y_ axis for the activity code and the fourth is the individual participant id.
 
 Step 3 uses the data from the Y labels description file, imported as a data frame/
 lookup table, to translate the numeric code to a descriptive text file
 
-Step 5 uses dplyr methods to pipe the variables, grouped by the activity, and then 
+Step 5 uses dplyr methods to pipe the variables, grouped by the subject and then the activity, and then 
 generate the means for every variable across each activity.  The summarize_all method 
 made this extremely simple.  The resulting dataset is written to a txt file.
 
 Noelle Foster
-Submitted 8/5/2017
+Submitted 8/5/2017,
+amended 8/6/2017

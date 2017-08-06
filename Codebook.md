@@ -15,6 +15,8 @@ These signals were used to estimate variables of the feature vector for each pat
 
 Dimensions in dataset:
 
+subject - participant anonomyzing identifier
+
 activitydesc - Descriptive label assigned from lookup against the Y label file
 
 tBodyAcc-mean()-X
@@ -149,4 +151,4 @@ fBodyBodyGyroJerkMag-mean()
 
 fBodyBodyGyroJerkMag-std()
 
-activitycode - the original code that was used to lookup the description of the activity in activitydesc. Preserved for backward compatibility
+activitycode - the original code that was used to lookup the description of the activity in activitydesc. Preserved for backward compatibility.
